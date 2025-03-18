@@ -1,5 +1,6 @@
 import { Router } from "express";
 import parser from "ua-parser-js";
+import parseIpAddress from "../utils/parseIpAddress";
 
 const router = Router();
 
@@ -9,10 +10,6 @@ declare module "express-session" {
     userVisit?: number;
     userAgent?: string;
   }
-}
-
-function parseIp(ipString: string): string {
-  return ipString.replace("::ffff:", "");
 }
 
 declare module "express-session" {
@@ -35,7 +32,7 @@ declare module "express-session" {
 
 export default router.use((req, res, next): void => {
   // Parse IP address
-  req.session.userIP = parseIp(req.ip as string);
+  req.session.userIP = parseIpAddress(req.ip as string);
 
   // User visits
   req.session.userVisit = req.session.userVisit
