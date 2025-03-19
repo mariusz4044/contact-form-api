@@ -11,9 +11,12 @@ export default router.post("/", async (req, res) => {
     captcha,
   }: { email: string; message: string; captcha: string } = req.body;
 
-  const session = req.session;
+  const session = structuredClone(req.session);
   const captchaAnswer = session.captchaAnswer?.toLowerCase();
   const captchaRecieve = captcha?.toLowerCase();
+
+  //Remove captcha - one captcha per one form
+  delete req.session.captchaAnswer;
 
   if (!captchaAnswer) {
     res.status(400).json("Please reload the page!");

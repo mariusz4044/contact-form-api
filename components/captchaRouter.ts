@@ -10,7 +10,7 @@ declare module "express-session" {
   }
 }
 
-export default router.use(async (req, res, next) => {
+export default router.get("/", async (req, res, next) => {
   const { data, answer }: Captcha = await generateCaptcha();
   req.session.captchaAnswer = answer;
   res.send(`<img src="${data}" alt="captcha-image" />`);
