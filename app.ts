@@ -28,12 +28,28 @@ app.use(express.json({ limit: "1mb" }));
 app.use(corsConfig);
 app.use(sessionConfig);
 
+//handle bad JSON formats
+//@ts-ignore
+app.use((err: unknown, req, res, next) => {
+  if (err instanceof SyntaxError && "body" in err) {
+    res.status(400).json({ error: "Invalid JSON format" });
+    return;
+  }
+  next();
+});
+
+//rate limiter
+import { defaultLimiter } from "./utils/rateLimits";
+app.use(defaultLimiter);
+
 //Import routes
 import UserTracking from "./middleware/userTracking";
 import CaptchaRouter from "./components/captchaRouter";
+import ContactRouter from "./components/contactRouter";
 
 //Routes middleware
 app.use("/", UserTracking);
+app.use("/form", ContactRouter);
 app.use("/captcha", CaptchaRouter);
 
 app.listen(port, () => {

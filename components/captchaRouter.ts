@@ -1,5 +1,4 @@
 import { Router } from "express";
-import parseIpAddress from "../utils/parseIpAddress";
 import { generateCaptcha } from "../utils/captcha";
 import { Captcha } from "../utils/captcha";
 
