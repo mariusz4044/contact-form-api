@@ -53,6 +53,5 @@ export default router.use((req, res, next): void => {
   req.session.language = req.headers["accept-language"] as string;
   req.session.referrer = req.headers.referer as string;
 
-  res.json(req.session);
   next();
 });

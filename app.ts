@@ -30,9 +30,11 @@ app.use(sessionConfig);
 
 //Import routes
 import UserTracking from "./middleware/userTracking";
+import CaptchaRouter from "./components/captchaRouter";
 
 //Routes middleware
 app.use("/", UserTracking);
+app.use("/captcha", CaptchaRouter);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
